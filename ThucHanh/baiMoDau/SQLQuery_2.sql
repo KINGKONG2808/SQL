@@ -1,0 +1,17 @@
+USE SQLex
+GO
+--INSERT INTO NhanVien VALUES ('2', 'VHung', 'TB', 'Nam', '1234', 'cabcc@xyz', '102')
+--INSERT INTO NhanVien VALUES ('3', 'ThiHung', 'HN', 'Nu', '214215', 'dsvd@jdsd', '111')
+--INSERT INTO NhanVien VALUES ('4', 'NguyenHuy', 'HungHa', 'Nam', '112132', 'aaa@bcba', '001')
+--INSERT INTO HangSX VALUES ('1', 'abc', 'TB', '0122', 'abc@fsd')
+--INSERT INTO HangSX VALUES ('2', 'def', 'HN', 'das2', 'abczcxx@fsd')
+--INSERT INTO HangSX VALUES ('3', 'igh', 'TT', '0112', 'abccx@fsxcd')
+--INSERT INTO HangSX VALUES ('4', 'klm', 'BN', '0132', 'abcxc@fsdzc')
+--INSERT INTO Nhap VALUES ('10', '1', '0021', '100', '20000', '3/21/2092')
+--INSERT INTO Nhap VALUES ('22', '2', '0024', '102', '10000', '12/5/2029')
+--INSERT INTO Nhap VALUES ('23', '3', '0022', '103', '2000', '2/4/2013')
+--INSERT INTO Nhap VALUES ('24', '4', '0023', '104', '3000', '3/3/2012')
+INSERT INTO SanPham VALUES ('0021', '1', 'abc', '10', 'red', '20000', '12', 'con hang')
+INSERT INTO SanPham VALUES ('0022', '2', 'def', '20', 'green', '3000', '20', 'het hang')
+INSERT INTO SanPham VALUES ('0023', '3', 'ghg', '30', 'blue', '23000', '15', 'het hang')
+INSERT INTO SanPham VALUES ('0024', '4', 'klm', '40', 'black', '40000', '30', 'con hang')
