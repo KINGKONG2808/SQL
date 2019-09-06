@@ -1,0 +1,27 @@
+USE MarkManagement
+GO
+CREATE TABLE Students(
+    StudentID NVARCHAR(12) NOT NULL PRIMARY KEY,
+    StudentName NVARCHAR(25) NOT NULL,
+    DateofBirth DATETIME NOT NULL,
+    Email NVARCHAR(40),
+    Phone NVARCHAR(12),
+    Class NVARCHAR(10)
+)
+GO
+CREATE TABLE Subjects(
+    SubjectID NVARCHAR(10) NOT NULL PRIMARY KEY,
+    SubjectName NVARCHAR(25) NOT NULL
+)
+GO
+CREATE TABLE Mark(
+    StudentID NVARCHAR(12) NOT NULL,
+    SubjectID NVARCHAR(10) NOT NULL,
+    DATE DATETIME,
+    Theory TINYINT,
+    Practical TINYINT,
+    CONSTRAINT PK_Mark PRIMARY KEY(StudentID, SubjectID),
+    CONSTRAINT FK_Students FOREIGN KEY(StudentID) REFERENCES Students(StudentID),
+    CONSTRAINT FK_Subjects FOREIGN KEY(SubjectID) REFERENCES Subjects(SubjectID)
+)
+GO
