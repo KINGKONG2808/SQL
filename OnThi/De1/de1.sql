@@ -2,31 +2,31 @@
 -- go 
 -- create database QLSinhVien
 
--- use QLSinhVien 
--- go 
--- cau 1
--- create table Khoa(
---     makhoa nvarchar(30) primary key not null,
---     tenkhoa nvarchar(30),
--- )
--- go 
--- create table Lop(
---     malop nvarchar(30) primary key not null,
---     tenlop nvarchar(30) not null,
---     siso int,
---     makhoa nvarchar(30),
---     constraint fk_khoa foreign key (makhoa) references Khoa(makhoa),
--- )
--- go 
--- create table SinhVien(
---     masv nvarchar(30) primary key not null,
---     hoten nvarchar(30) not null,
---     ngaysinh datetime,
---     gioitinh nvarchar(10),
---     malop nvarchar(30),
---     constraint fk_malop foreign key (malop) references Lop(malop),
--- )
--- go 
+use QLSinhVien 
+go 
+cau 1
+create table Khoa(
+    makhoa nvarchar(30) primary key not null,
+    tenkhoa nvarchar(30),
+)
+go 
+create table Lop(
+    malop nvarchar(30) primary key not null,
+    tenlop nvarchar(30) not null,
+    siso int,
+    makhoa nvarchar(30),
+    constraint fk_khoa foreign key (makhoa) references Khoa(makhoa),
+)
+go 
+create table SinhVien(
+    masv nvarchar(30) primary key not null,
+    hoten nvarchar(30) not null,
+    ngaysinh datetime,
+    gioitinh nvarchar(10),
+    malop nvarchar(30),
+    constraint fk_malop foreign key (malop) references Lop(malop),
+)
+go 
 
 insert into Khoa values ('001', 'abc')
 insert into Khoa values ('002', 'def')
@@ -60,6 +60,22 @@ as
 
 select * from SinhVien
 select * from ThongTin('abc')
+
+-- cau 3
+alter proc LuuTru(@tuoivao int, @tuoira int)
+as 
+    begin 
+        if(@tuoira<0 or @tuoivao<0)
+            print 'Tuoi nhap vao khong hop le.'
+        else 
+            begin 
+                select SinhVien.masv, SinhVien.hoten, SinhVien.ngaysinh, Lop.tenlop, Khoa.tenkhoa, year(getdate())-year(SinhVien.ngaysinh) as 'Tuoi'
+                from SinhVien inner join Lop on SinhVien.malop=Lop.malop inner join Khoa on Lop.makhoa=Khoa.makhoa
+                where @tuoivao<=year(getdate())-year(SinhVien.ngaysinh) and year(getdate())-year(SinhVien.ngaysinh)<=@tuoira
+            end
+    end 
+
+exec LuuTru -1, 20
 
 -- cau 4
 alter trigger trg_add on SinhVien
