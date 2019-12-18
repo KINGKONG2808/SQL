@@ -3,6 +3,7 @@
 -- create database QLBenhVien
 -- go 
 
+-- cau 1
 use QLBenhVien 
 go 
 create table BenhVien(
@@ -39,11 +40,7 @@ insert into BenhNhan values ('003', 'Nguyen Khac Hieu', '06/20/1999', 'Nu', 11, 
 insert into BenhNhan values ('004', 'Phan Duc Hai', '07/07/1999', 'Nu', 20, '02a')
 insert into BenhNhan values ('005', 'Phan Thi Hai', '04/04/1999', 'Nam', 25, '02a')
 
-select * from BenhVien
-select * from BenhNhan 
-select * from KhoaKham
-
--- cau 1
+-- cau 2
 create view BenhNhanNu
 as 
     select KhoaKham.makhoa, KhoaKham.tenkhoa, count(BenhNhan.mabn) as 'SoNguoi'
@@ -51,4 +48,33 @@ as
     where BenhNhan.gioitinh='nu'
     group by KhoaKham.makhoa, KhoaKham.tenkhoa
 
+
+select * from BenhVien
+select * from BenhNhan 
+select * from KhoaKham
 select * from BenhNhanNu
+
+-- cau 3
+create proc TongTien(@makhoa nvarchar(30))
+as 
+    begin 
+        if(not exists(select * from KhoaKham where KhoaKham.makhoa=@makhoa))
+            print 'Ma khoa khong ton tai trong bang Khoa Kham'
+        else 
+            if(not exists(select * from BenhNhan where BenhNhan.makhoa=@makhoa))
+                print 'Ma khoa khong ton tai trong bang Benh Nhan'
+            else 
+                begin 
+                    select BenhVien.tenbv, KhoaKham.tenkhoa, sum(BenhNhan.songaynv*80000) as 'Tien'
+                    from BenhVien, KhoaKham, BenhNhan
+                    where BenhVien.mabv=KhoaKham.mabv
+                    and KhoaKham.makhoa=BenhNhan.makhoa
+                    group by BenhVien.tenbv, KhoaKham.tenkhoa
+                end
+    end 
+
+exec TongTien'01a'
+
+-- cau 4
+create trigger trg_khoakham on KhoaKham
+ 
