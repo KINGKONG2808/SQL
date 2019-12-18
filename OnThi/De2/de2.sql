@@ -76,5 +76,33 @@ as
 exec TongTien'01a'
 
 -- cau 4
-create trigger trg_khoakham on KhoaKham
- 
+alter trigger trg_khoakham on BenhNhan
+for insert 
+as 
+    begin 
+        declare @sobenhnhan int
+        declare @makhoa nvarchar(30)
+        set @sobenhnhan = (select sobenhnhan from KhoaKham inner join inserted on KhoaKham.makhoa=inserted.makhoa)
+        set @makhoa = (select makhoa from inserted)
+        if(@sobenhnhan>100)
+            begin 
+                raiserror('So benh nhan lon hon 100, khong the them', 16, 1)
+                rollback transaction
+            end 
+        else 
+            begin 
+                update KhoaKham set sobenhnhan = sobenhnhan + 1
+                where @makhoa = KhoaKham.makhoa
+            end 
+    end 
+
+
+select * from BenhNhan 
+select * from KhoaKham
+insert into BenhNhan values ('006', 'Pham Hoang Tien', '02/28/1999', 'Nu', 10, '02a')
+select * from BenhNhan 
+select * from KhoaKham
+
+
+update KhoaKham set sobenhnhan=50 where makhoa='01a'
+update KhoaKham set sobenhnhan=60 where makhoa='02a'
