@@ -4,7 +4,7 @@
 
 use QLSinhVien 
 go 
-cau 1
+--cau 1
 create table Khoa(
     makhoa nvarchar(30) primary key not null,
     tenkhoa nvarchar(30),
@@ -76,6 +76,28 @@ as
     end 
 
 exec LuuTru -1, 20
+
+create proc Nhap(@masv nvarchar(30), @hoten nvarchar(30), @ngaysinh datetime, @gioitinh nvarchar(10), @malop nvarchar(30), @report int output)
+as 
+    begin 
+        if(exists(select * from SinhVien where masv=@masv))
+            set @report = 1
+        else 
+            begin 
+                if(exists(select * from SinhVien where hoten=@hoten))
+                    set @report=1
+                else 
+                    begin 
+                        set @report=0
+                        insert into SinhVien values (@masv, @hoten, @ngaysinh, @gioitinh, @malop)
+                    end 
+            end 
+    end
+
+declare @report int 
+exec Nhap '010a', 'eae', '05/01/1999', 'nu', '02a', @report output
+select @report
+select * from SinhVien
 
 -- cau 4
 alter trigger trg_add on SinhVien
