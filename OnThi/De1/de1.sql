@@ -37,6 +37,7 @@ insert into SinhVien values ('002a', 'bbb', '02/03/1999', 'nam', '02a')
 insert into SinhVien values ('003a', 'ccc', '03/04/1999', 'nu', '01a')
 insert into SinhVien values ('004a', 'ddd', '04/01/1999', 'nam', '02a')
 insert into SinhVien values ('005a', 'eee', '05/01/1999', 'nu', '01a')
+insert into SinhVien values ('011a', 'hung', '04/01/1989', 'nam', '02a')
 
 select * from Khoa
 select * from Lop
@@ -60,6 +61,20 @@ as
 
 select * from SinhVien
 select * from ThongTin('abc')
+
+create function Tuoi(@tenlop nvarchar(30))
+returns int 
+as 
+    begin 
+        declare @maxAge int
+        select @maxAge=max(year(getdate())-year(ngaysinh)) 
+        from SinhVien inner join Lop on SinhVien.malop=Lop.malop 
+        where Lop.tenlop=@tenlop
+        return @maxAge
+    end 
+
+select * from Lop
+select dbo.Tuoi('b')
 
 -- cau 3
 alter proc LuuTru(@tuoivao int, @tuoira int)
